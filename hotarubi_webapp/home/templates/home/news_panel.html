@@ -1,0 +1,15 @@
+<div class="panel panel-default news_panel" ng-controller="homeAppNewList">
+  <div class="panel-heading">
+    <h3 class="panel-title">次エベント</h3>
+  </div>
+  <div class="panel-body">
+      <ul class="list-group">
+          <a href="/news/[[ new.id ]]" ng-repeat="new in news">
+              <li class="list-group-item">
+                  <span class="panel_name">[[ new.name ]]</span>
+                  <span class="panel_short_description">[[ new.short_description ]]</span>
+              </li>
+          </a>
+      </ul>
+  </div>
+</div>

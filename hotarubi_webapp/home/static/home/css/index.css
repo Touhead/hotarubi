@@ -1,0 +1,36 @@
+body{
+    height:100%;
+    font-family: "851_tegaki_kakutto";
+    font-size: 2em;
+}
+
+@font-face{
+    font-family: "851_tegaki_kakutto";
+    src: url('/static/home/fonts/851_tegaki_kakutto.ttf');
+}
+
+.carousel_container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.content_container{
+    margin: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.events_panel_container{
+    align-self: flex-start;
+    width: 50%;
+    margin: 5px;
+}
+
+.news_panel_container{
+    align-self: flex-start;
+    width: 50%;
+    margin: 5px;
+}
+

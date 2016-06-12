@@ -1,0 +1,28 @@
+.panel-title{
+    font-size: 1.4em;
+}
+
+.panel_name{
+    color: darkorange;
+    font-weight: bolder;
+    margin-right: 30px;
+    font-size: 1.2em;
+}
+
+.panel_short_description{
+
+}
+
+.events_panel{
+}
+
+.news_panel{
+}
+
+.panel-body li{
+    transition:  background-color 2s;
+}
+
+.panel-body li:hover{
+    background-color: #cce0ff;
+}
