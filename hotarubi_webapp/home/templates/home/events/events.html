@@ -1,0 +1,32 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% include "home/generic_include.html" %}
+    <link rel="stylesheet" type="text/css" href="{% static "home/css/events/events.css" %}">
+    <script src="{% static "home/js/events.js" %}"></script>
+    <base href="/events"><base>
+</head>
+<body ng-app="homeApp.resource">
+    <div>
+        {% include "home/nav.html" %}
+    </div>
+    <div ng-view></div>
+    <script>
+        var homeApp = angular.module('homeApp.resource');
+
+        homeApp.config(['$httpProvider', function($httpProvider) {
+            $httpProvider.defaults.headers.common['X-CSRFToken'] = '{{ csrf_token|escapejs }}';
+        }]);
+
+        homeApp.factory('AuthUser',
+            function() {
+                return {
+                    username: "{{ user.username|default:''|escapejs }}"
+                }
+            }
+        );
+
+    </script>
+</body>
+</html>

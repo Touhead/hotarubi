@@ -1,0 +1,27 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% include "home/generic_include.html" %}
+    <link rel="stylesheet" type="text/css" href="{% static "home/css/home/index.css" %}">
+    <link rel="stylesheet" type="text/css" href="{% static "home/css/home/carousel.css" %}">
+    <link rel="stylesheet" type="text/css" href="{% static "home/css/navbar.css" %}">
+    <link rel="stylesheet" type="text/css" href="{% static "home/css/home/panel.css" %}">
+</head>
+<body ng-app="homeApp.resource">
+    <div>
+        {% include "home/nav.html" %}
+    </div>
+    <div class="carousel_container">
+        {% include "home/home/carousel.html" %}
+    </div>
+    <div class="content_container">
+        <div class="events_panel_container">
+            {% include "home/home/events_panel.html" %}
+        </div>
+        <div class="news_panel_container">
+            {% include "home/home/news_panel.html" %}
+        </div>
+    </div>
+</body>
+</html>

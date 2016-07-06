@@ -122,6 +122,6 @@ USE_TZ = True
 
 #STATIC_ROOT = 'C:\wamp64\www\hotarubi\static'
 MEDIA_ROOT = 'C:\wamp64\www\hotarubi\media'
-MEDIA_URL = 'http://hotarubi.touhead.com/media/'
+MEDIA_URL = 'http://localhost:8080/hotarubi/media/'
 #STATIC_URL = 'http://hotarubi.touhead.com/static/'
 STATIC_URL = '/static/'

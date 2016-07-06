@@ -1,0 +1,49 @@
+<div ng-controller="eventEventView">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">[[ event.name ]]</h3>
+        </div>
+        <div class="img_heading_panel">
+            <img src="[[ event_images[0].image ]]" onclick="resize(this)" class="img_heading">
+        </div>
+        <div class="panel-body">
+            <p>
+                [[ event.description ]]
+            </p>
+        </div>
+        <div class="panel-footer event_panel">
+            <img src="[[ event_image.image ]]" onclick="resize(this)" class="img-responsive img-rounded img_event" ng-repeat="event_image in event_images" ng-if="!$first">
+        </div>
+    </div>
+    <div>
+        <ul class="list-group">
+            <li class="list-group-item" ng-repeat="post in posts">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        [[ post.user.username ]]
+                        <button type="button" class="close" ng-click="delete(post)" ng-show="canDelete(post)">&times;</button>
+                    </div>
+                    <div class="panel-body">
+                        <p>
+                            [[ post.content ]]
+                        </p>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+        <div class="edit_post_top">
+            <h5>Create a New Post</h5>
+        </div>
+        <form class="form-inline">
+            <div class="form-group edit_post_top">
+                <input type="text" class="form-control" ng-model="newPost.content" placeholder="Body">
+            </div>
+            <div class="form-group edit_post_top">
+                <button class="btn btn-default" ng-click="save()">Add Post</button>
+            </div>
+        </form>
+        <div>
+            <p ng-repeat="(name, errs) in errors" class="alert alert-danger"><strong>[[ name ]]</strong>: [[ errs.join(', ') ]]</p>
+        </div>
+</div>

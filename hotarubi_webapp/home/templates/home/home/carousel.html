@@ -1,4 +1,4 @@
-<div id="carousel" class="carousel slide" data-ride="carousel" ng-controller="homeAppEventList">
+<div id="carousel" class="carousel slide" data-ride="carousel" ng-controller="indexEventList">
     <!-- Indicators -->
     <ol class="carousel-indicators">
             <li data-target="#carousel" data-slide-to="[[ $index ]]" class="active" ng-repeat="event in events" ng-if="$first"></li>
@@ -7,11 +7,11 @@
 
     <!-- Wrapper for slides -->
     <div class="carousel-inner" role="listbox">
-        <div class="item active" ng-repeat="event in events" ng-if="$first">
-            <img src="[[ event.image ]]" >
+        <div class="item active" ng-repeat="events_image in events_images" ng-if="$first">
+            <img src="[[ events_image[0].image ]]" >
         </div>
-        <div class="item" ng-repeat="event in events" ng-if="!$first">
-            <img src="[[ event.image ]]">
+        <div class="item" ng-repeat="events_image in events_images" ng-if="!$first">
+            <img src="[[ events_image[0].image ]]">
         </div>
     </div>
 

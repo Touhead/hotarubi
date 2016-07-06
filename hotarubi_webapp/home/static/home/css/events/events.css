@@ -1,0 +1,38 @@
+.img_heading_panel{
+    max-width: 100%;
+    height: 60vh;
+    overflow: hidden;
+}
+
+.img_heading {
+    width: 100%;
+    height: auto;
+    margin-top: -30vh;
+}
+
+.img_event {
+    width: 20%;
+    transition: width 2s;
+    align-self: flex-start;
+
+}
+
+.img_event.expend {
+    width: 80%;
+}
+
+.event_panel {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.edit_post_panel {
+    display: flex;
+    align-items: center;
+}
+
+.edit_post_top {
+    align-self: flex-start;
+    width: 100%;
+}
