@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from django.http import HttpResponse
 from django.shortcuts import render
 from itertools import chain
@@ -6,12 +8,12 @@ from rest_framework import generics, permissions
 from rest_framework.response import Response
 from django.views import generic
 from rest_framework.decorators import api_view
-from .models import GuildEvent, New, ThreadImage, PostImage, Post, User
+from .models import GuildEvent, New, ThreadImage, PostImage, Post, User, Thread
 from django.contrib.auth.models import User
 from .permission import PostUserCanEditPermission
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 
-from .serializers import GuildEventSerializer, NewSerializer, NewAndGuildEventSerializer, ThreadImageSerializer, PostImageSerializer, UserSerializer, PostSerializer
+from .serializers import GuildEventSerializer, NewSerializer, NewAndGuildEventSerializer, ThreadImageSerializer, PostImageSerializer, UserSerializer, PostSerializer, ThreadSerializer
 # Create your views here.
 
 
@@ -19,19 +21,38 @@ def index_view(request):
     return render(request, 'home/home/index.html')
 
 
-def event_view(request, pk = 0):
+def event_view(request, pk):
     return render(request, 'home/events/events.html')
 
-def auth_view(request):
+
+def event_list_view(request):
+    return render(request, 'home/events/events_list.html')
+
+
+def news_view(request, pk):
+    return render(request, 'home/news/news.html')
+
+
+def news_list_view(request):
+    return render(request, 'home/news/news_list.html')
+
+
+def auth_login_view(request):
     username = request.POST['username']
     password = request.POST['password']
     user = authenticate(username=username, password=password)
     if user is not None:
         if user.is_active:
             login(request, user)
+            return render(request, 'home/home/index.html', {'login': True})
+        else:
+            return render(request, 'home/home/index.html', {'login': False})
 
-    return render(request, 'home/home/index.html')
-# Return an 'invalid login' error message.
+    return render(request, 'home/home/index.html', {'login': False})
+
+def auth_logout_view(request):
+    logout(request)
+    return render(request, 'home/home/index.html', {'logout': True})
 
 class UserList(generics.ListCreateAPIView):
     model = User
@@ -48,7 +69,7 @@ class UserDetail(generics.RetrieveAPIView):
 
 class GuildEventList(generics.ListCreateAPIView):
     model = GuildEvent
-    queryset = GuildEvent.objects.order_by('-pub_date')[:5]
+    queryset = GuildEvent.objects.order_by('-pub_date')
     serializer_class = GuildEventSerializer
     permission_classes = [
         permissions.AllowAny
@@ -64,9 +85,9 @@ class GuildEventDetail(generics.RetrieveUpdateDestroyAPIView):
     ]
 
 
-class NewList(generics.ListCreateAPIView):
+class NewsList(generics.ListCreateAPIView):
     model = New
-    queryset = New.objects.order_by('-pub_date')[:5]
+    queryset = New.objects.order_by('-pub_date')
     serializer_class = NewSerializer
     permission_classes = [
         permissions.AllowAny
@@ -74,7 +95,7 @@ class NewList(generics.ListCreateAPIView):
 
 
 @api_view(['GET'])
-def new_and_guild_event_list(request):
+def news_and_guild_event_list(request):
     queryset = sorted(chain(New.objects.all(), GuildEvent.objects.all()), key=attrgetter('pub_date'))[:5]
     print (queryset)
     serializer = []
@@ -84,7 +105,7 @@ def new_and_guild_event_list(request):
     return Response(serializer)
 
 
-class NewDetail(generics.RetrieveUpdateDestroyAPIView):
+class NewsDetail(generics.RetrieveUpdateDestroyAPIView):
     model = New
     queryset = New.objects.all()
     serializer_class = NewSerializer
@@ -92,6 +113,13 @@ class NewDetail(generics.RetrieveUpdateDestroyAPIView):
         permissions.AllowAny
     ]
 
+class ThreadList(generics.ListCreateAPIView):
+    model = Thread
+    queryset = Thread.objects.order_by('-pub_date')
+    serializer_class = ThreadSerializer
+    permission_classes = [
+        permissions.AllowAny
+    ]
 
 class ThreadsImageList(generics.ListCreateAPIView):
     model = ThreadImage

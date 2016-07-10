@@ -1,18 +1,18 @@
-<div ng-controller="eventEventView">
+<div ng-controller="newsNewsView">
     <div class="panel panel-default">
         <div class="panel-heading">
-            <h3 class="page-header">[[ event.name ]]</h3>
+            <h3 class="page-header">[[ news.name ]]</h3>
         </div>
-        <div class="img_heading_panel" ng-if="[[ event.banner ]] != ''">
-            <img src="[[ event.banner ]]" class="img_heading">
+        <div class="img_heading_panel" ng-if="[[ news.banner ]] != ''">
+            <img src="[[ news.banner ]]" class="img_heading">
         </div>
         <div class="panel-body">
             <p>
-                [[ event.description ]]
+                [[ news.description ]]
             </p>
         </div>
-        <div class="panel-footer event_detail_panel">
-            <img src="[[ event_image.image ]]" onclick="resize(this)" class="img-responsive img-rounded img_event" ng-repeat="event_image in event_images" ng-if="!$first">
+        <div class="panel-footer news_detail_panel">
+            <img src="[[ news_image.image ]]" onclick="resize(this)" class="img-responsive img-rounded img_news" ng-repeat="news_image in news_images" ng-if="!$first">
         </div>
     </div>
     <div>
@@ -20,6 +20,7 @@
             <li class="list-group-item" ng-repeat="post in posts">
                 <div class="panel panel-default">
                     <div class="panel-heading">
+
                         <div class="left">
                             [[ post.user.username ]]
                         </div>
@@ -47,7 +48,7 @@
                 </div>-->
                 <div class="form-group">
                     <label for="post_content">本文 (2000文字まで)</label>
-                    <textarea id="post_content" class="form-control" ng-model="newPost.content" placeholder="新たなポスト" rows="8" maxlength="2000"></textarea>
+                    <textarea id="post_content" class="form-control" ng-model="newNews.content" placeholder="新たなポスト" rows="8" maxlength="2000"></textarea>
                 </div>
                 <div class="form-group">
                     <button id="post_submit" class="btn btn-default" ng-click="save()">投稿</button>

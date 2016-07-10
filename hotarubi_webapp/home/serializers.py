@@ -1,7 +1,8 @@
-from rest_framework import serializers
-from .models import GuildEvent, New, ThreadImage, PostImage, Post
-from django.contrib.auth.models import User
+# -*- coding: utf-8 -*-
 
+from rest_framework import serializers
+from .models import GuildEvent, New, ThreadImage, PostImage, Post, Thread
+from django.contrib.auth.models import User
 
 class UserSerializer(serializers.ModelSerializer):
     user_post = serializers.StringRelatedField(many=True)
@@ -11,13 +12,22 @@ class UserSerializer(serializers.ModelSerializer):
         fields = ('id', 'username', 'first_name', 'last_name', 'user_post')
 
 
-class GuildEventSerializer(serializers.ModelSerializer):
+class ThreadSerializer(serializers.ModelSerializer):
+    pub_date = serializers.DateTimeField(format=u"%Y年%m月%d日")
 
+    class Meta:
+        model = Thread
+
+
+class GuildEventSerializer(serializers.ModelSerializer):
+    pub_date = serializers.DateTimeField(format=u"%Y年%m月%d日")
+    date = serializers.DateTimeField(format=u"%Y年%m月%d日")
     class Meta:
         model = GuildEvent
 
 
 class NewSerializer(serializers.ModelSerializer):
+    pub_date = serializers.DateTimeField(format=u"%Y年%m月%d日")
 
     class Meta:
         model = New
@@ -26,6 +36,7 @@ class NewSerializer(serializers.ModelSerializer):
 class PostSerializer(serializers.ModelSerializer):
     user = UserSerializer(required=False)
     post_image = serializers.StringRelatedField(many=True)
+    pub_date = serializers.DateTimeField(format=u"%Y年%m月%d日 %H:%M")
 
     class Meta:
         model = Post

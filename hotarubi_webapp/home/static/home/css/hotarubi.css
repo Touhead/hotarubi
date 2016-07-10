@@ -1,0 +1,17 @@
+body{
+    height:100%;
+    font-family: "851_tegaki_kakutto";
+    font-size: 2em;
+}
+
+@font-face{
+    font-family: "851_tegaki_kakutto";
+    src: url('/static/home/fonts/851_tegaki_kakutto.ttf');
+}
+
+.left {
+	float: left;
+}
+.right {
+	float: right;
+}

@@ -4,19 +4,14 @@
 <head>
     {% include "home/generic_include.html" %}
     {% include "home/nav/nav_include.html" %}
+    {% include "home/news/news_include.html" %}
     {% include "home/home/home_include.html" %}
 </head>
 <body ng-app="homeApp.resource">
     <div>
         {% include "home/nav/nav.html" %}
     </div>
-    <div class="carousel_container">
-        {% include "home/home/carousel.html" %}
-    </div>
     <div class="content_container">
-        <div class="events_panel_container">
-            {% include "home/home/events_panel.html" %}
-        </div>
         <div class="news_panel_container">
             {% include "home/home/news_panel.html" %}
         </div>

@@ -7,18 +7,18 @@
     height: auto;
 }
 
-.img_event {
+.img_news {
     width: 20%;
     transition: width 2s;
     align-self: flex-start;
 
 }
 
-.img_event.expend {
+.img_news.expend {
     width: 80%;
 }
 
-.event_detail_panel {
+.news_detail_panel {
     display: flex;
     align-items: center;
     flex-wrap: wrap;

@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from fabric.api import *
 
 # Hosts to deploy onto

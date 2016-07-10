@@ -1,27 +1,36 @@
-<div id="carousel" class="carousel slide" data-ride="carousel" ng-controller="indexEventList">
-    <!-- Indicators -->
-    <ol class="carousel-indicators">
-            <li data-target="#carousel" data-slide-to="[[ $index ]]" class="active" ng-repeat="event in events" ng-if="$first"></li>
-            <li data-target="#carousel" data-slide-to="[[ $index ]]" ng-repeat="event in events" ng-if="!$first"></li>
-    </ol>
+<div ng-controller="indexThreadList">
+    <div id="carousel" class="carousel slide" data-ride="carousel"  ng-if="threads.length">
+        <!-- Indicators -->
+        <ol class="carousel-indicators">
+                <li data-target="#carousel" data-slide-to="[[ threads.indexOf(thread) ]]" class="[[thread == (threads | filter: eventNotNull)[0] ? 'active' : '']] " ng-repeat="thread in threads | filter: eventNotNull | limitTo: 5"></li>
+        </ol>
 
-    <!-- Wrapper for slides -->
-    <div class="carousel-inner" role="listbox">
-        <div class="item active" ng-repeat="events_image in events_images" ng-if="$first">
-            <img src="[[ events_image[0].image ]]" >
+        <!-- Wrapper for slides -->
+        <div class="carousel-inner" role="listbox">
+            <div class="item active" ng-repeat="thread in threads | filter: eventNotNull | limitTo: 5" ng-if="$first">
+                <img src="[[ thread.banner ]]" >
+                <div class="carousel-caption">
+                    <h3>[[ thread.name ]]</h3>
+                    <p>[[ thread.short_description ]]</p>
+                </div>
+            </div>
+            <div class="item" ng-repeat="thread in threads | filter: eventNotNull | limitTo: 5" ng-if="!$first">
+                <img src="[[ thread.banner ]]">
+                <div class="carousel-caption">
+                    <h3>[[ thread.name ]]</h3>
+                    <p>[[ thread.short_description ]]</p>
+                </div>
+            </div>
         </div>
-        <div class="item" ng-repeat="events_image in events_images" ng-if="!$first">
-            <img src="[[ events_image[0].image ]]">
-        </div>
+
+        <!-- Controls -->
+        <a class="left carousel-control" href="#carousel" role="button" data-slide="prev">
+            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="right carousel-control" href="#carousel" role="button" data-slide="next">
+            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
     </div>
-
-    <!-- Controls -->
-    <a class="left carousel-control" href="#carousel" role="button" data-slide="prev">
-        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-        <span class="sr-only">Previous</span>
-    </a>
-    <a class="right carousel-control" href="#carousel" role="button" data-slide="next">
-        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-        <span class="sr-only">Next</span>
-    </a>
 </div>

@@ -1,0 +1,15 @@
+<div class="auth">
+    {% if login != None %}
+        {% if login == True %}
+            <div class="alert alert-success">
+                <strong>{{ user.username }}</strong>が蛍火にようこそ !
+            </div>
+        {% else %}
+            <div class="alert alert-danger">
+                <strong>ユ－ザ</strong>が無効です
+            </div>
+        {% endif %}
+    {% endif %}
+</div>
+
+

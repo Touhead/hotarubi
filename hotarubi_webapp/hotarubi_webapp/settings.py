@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 """
 Django settings for hotarubi_webapp project.
 
@@ -50,6 +52,7 @@ MIDDLEWARE_CLASSES = [
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
 ]
 
 ROOT_URLCONF = 'hotarubi_webapp.urls'
@@ -121,7 +124,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
 
 #STATIC_ROOT = 'C:\wamp64\www\hotarubi\static'
-MEDIA_ROOT = 'C:\wamp64\www\hotarubi\media'
+MEDIA_ROOT = 'C:\\wamp64\\www\\hotarubi\\media\\'
 MEDIA_URL = 'http://localhost:8080/hotarubi/media/'
 #STATIC_URL = 'http://hotarubi.touhead.com/static/'
 STATIC_URL = '/static/'

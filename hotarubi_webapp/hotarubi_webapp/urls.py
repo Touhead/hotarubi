@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 """hotarubi_webapp URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
@@ -15,9 +17,13 @@ Including another URLconf
 """
 from django.conf.urls import include, url
 from django.contrib import admin
+from django.conf.urls.i18n import i18n_patterns
 
 urlpatterns = [
-    url(r'^admin/', admin.site.urls),
+    url(r'', include('home.urls')),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-    url(r'^', include('home.urls')),
 ]
+
+urlpatterns += i18n_patterns('',
+    url(r'admin/', include(admin.site.urls)),
+)
