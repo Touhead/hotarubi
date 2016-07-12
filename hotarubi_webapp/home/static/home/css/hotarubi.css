@@ -1,12 +1,17 @@
 body{
     height:100%;
-    font-family: "851_tegaki_kakutto";
+    font-family: "mamelon";
     font-size: 2em;
 }
 
 @font-face{
     font-family: "851_tegaki_kakutto";
     src: url('/static/home/fonts/851_tegaki_kakutto.ttf');
+}
+
+@font-face{
+    font-family: "mamelon";
+    src: url('/static/home/fonts/Mamelom.otf') format("opentype");
 }
 
 .left {

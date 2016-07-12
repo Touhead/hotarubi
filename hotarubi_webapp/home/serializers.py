@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 from rest_framework import serializers
 from .models import GuildEvent, New, ThreadImage, PostImage, Post, Thread
 from django.contrib.auth.models import User

@@ -23,17 +23,18 @@ class Thread(models.Model):
     banner = models.ImageField('バナ－の画像(任意)', upload_to="home/threads", blank=True)
 
     def save(self, *args, **kwargs):
-        super(Thread, self).save()
-        if self.banner and self.banner != "":
-            filename = settings.MEDIA_ROOT + self.banner.name
-            img = PILImage.open(filename)
-
-            if img.mode not in ('L', 'RGB'):
-                img = img.convert('RGB')
-
-            img = PILImageOps.fit(img, (1920, 1080), PILImage.ANTIALIAS, 0, (0.5, 0.5)).crop((0, 200, 1920, 800))
-            img.save(self.banner.path)
-            super(Thread, self).save()
+        try:
+            related_img = Image.objects.get(id=self.id)
+            if related_img.image != self.image:
+                filename = settings.MEDIA_ROOT + self.banner.name
+                img = PILImage.open(filename)
+                if img.mode not in ('L', 'RGB'):
+                    img = img.convert('RGB')
+                img = PILImageOps.fit(img, (1920, 1080), PILImage.ANTIALIAS, 0, (0.5, 0.5)).crop((0, 200, 1920, 800))
+                img.save(self.banner.path)
+        except Image.DoesNotExist:
+            pass
+        return super(Thread, self).save()
 
     def __str__(self):
         return self.name

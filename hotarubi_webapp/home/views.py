@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 
 from django.http import HttpResponse
 from django.shortcuts import render
@@ -50,9 +49,11 @@ def auth_login_view(request):
 
     return render(request, 'home/home/index.html', {'login': False})
 
+
 def auth_logout_view(request):
     logout(request)
     return render(request, 'home/home/index.html', {'logout': True})
+
 
 class UserList(generics.ListCreateAPIView):
     model = User

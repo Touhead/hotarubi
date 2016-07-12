@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 
 """
 WSGI config for hotarubi_webapp project.

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 
 """
 Django settings for hotarubi_webapp project.

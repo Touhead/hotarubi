@@ -7,9 +7,7 @@
             <img src="[[ event.banner ]]" class="img_heading">
         </div>
         <div class="panel-body">
-            <p>
-                [[ event.description ]]
-            </p>
+            <pre>[[ event.description ]]</pre>
         </div>
         <div class="panel-footer event_detail_panel">
             <img src="[[ event_image.image ]]" onclick="resize(this)" class="img-responsive img-rounded img_event" ng-repeat="event_image in event_images" ng-if="!$first">
@@ -30,9 +28,7 @@
                         <div style="clear: both;"></div>
                     </div>
                     <div class="panel-body">
-                        <p>
-                            [[ post.content ]]
-                        </p>
+                        <pre>[[ post.content ]]</pre>
                     </div>
                 </div>
             </li>
