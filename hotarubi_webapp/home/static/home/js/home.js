@@ -89,6 +89,9 @@ homeApp.config(function($routeProvider, $locationProvider) {
         .when('/news/:news_id', {
             templateUrl: '/static/home/html/news/news_view.html',
             controller: 'newsNewsView',
+        })
+        .otherwise({
+            redirectTo: '/'
         });
 });
 

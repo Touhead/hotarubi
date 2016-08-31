@@ -16,6 +16,11 @@ new_urls = [
     url(r'$', views.news_list_view, name='new-detail-page')
 ]
 
+account_urls = [
+    url(r'change_password$', views.change_password_view, name='new-detail-page'),
+    url(r'$', views.account_view, name='account-page')
+]
+
 auth_urls = [
     url(r'login$', views.auth_login_view, name='auth-page'),
     url(r'logout$', views.auth_logout_view, name='auth-page')
@@ -65,6 +70,7 @@ api_post_urls = [
 urlpatterns = [
     url(r'^events', include(event_urls)),
     url(r'^news', include(new_urls)),
+    url(r'^account', include(account_urls)),
     url(r'^auth', include(auth_urls)),
     url(r'^api/threads', include(api_thread_urls)),
     url(r'^api/events', include(api_event_urls)),

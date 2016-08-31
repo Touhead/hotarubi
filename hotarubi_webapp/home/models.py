@@ -12,6 +12,8 @@ from django.conf import settings
 from io import StringIO
 from django.core.files.uploadedfile import SimpleUploadedFile
 import os
+from django.core.files import File
+
 # Create your models here.
 
 
@@ -21,20 +23,30 @@ class Thread(models.Model):
     description = models.TextField('記述')
     short_description = models.CharField('短い記述', max_length=120)
     banner = models.ImageField('バナ－の画像(任意)', upload_to="home/threads", blank=True)
+    banner_name = None
+
+    def __init__(self, *args, **kwargs):
+        super(Thread, self).__init__(*args, **kwargs)
+        self.banner_name = self.banner.name
 
     def save(self, *args, **kwargs):
-        try:
-            related_img = Image.objects.get(id=self.id)
-            if related_img.image != self.image:
-                filename = settings.MEDIA_ROOT + self.banner.name
-                img = PILImage.open(filename)
+
+            if self.banner.name == "":
+                self.banner_name = None
+                return super(Thread, self).save()
+
+            if self.banner.name != self.banner_name:
+                super(Thread, self).save()
+                self.banner_name = self.banner.name
+                banner_path = settings.MEDIA_ROOT + self.banner.name
+
+                img = PILImage.open(banner_path)
                 if img.mode not in ('L', 'RGB'):
                     img = img.convert('RGB')
                 img = PILImageOps.fit(img, (1920, 1080), PILImage.ANTIALIAS, 0, (0.5, 0.5)).crop((0, 200, 1920, 800))
-                img.save(self.banner.path)
-        except Image.DoesNotExist:
-            pass
-        return super(Thread, self).save()
+                img.save(banner_path)
+
+            return super(Thread, self).save()
 
     def __str__(self):
         return self.name

@@ -1,6 +1,6 @@
 
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from itertools import chain
 from operator import attrgetter
 from rest_framework import generics, permissions
@@ -10,7 +10,11 @@ from rest_framework.decorators import api_view
 from .models import GuildEvent, New, ThreadImage, PostImage, Post, User, Thread
 from django.contrib.auth.models import User
 from .permission import PostUserCanEditPermission
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
+from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth import views
 
 from .serializers import GuildEventSerializer, NewSerializer, NewAndGuildEventSerializer, ThreadImageSerializer, PostImageSerializer, UserSerializer, PostSerializer, ThreadSerializer
 # Create your views here.
@@ -35,6 +39,24 @@ def news_view(request, pk):
 def news_list_view(request):
     return render(request, 'home/news/news_list.html')
 
+def account_view(request):
+    return render(request, 'home/account/account.html')
+
+@login_required
+def change_password_view(request):
+    if request.method == 'POST':
+        form = PasswordChangeForm(request.user, data=request.POST)
+        if form.is_valid():
+            form.save()
+            update_session_auth_hash(request, form.user) # dont logout the user.
+            messages.success(request, "Password changed.")
+            return redirect("/account")
+    else:
+        form = PasswordChangeForm(request.user)
+    data = {
+        'form': form
+    }
+    return render(request, "home/account/change_password.html", data)
 
 def auth_login_view(request):
     username = request.POST['username']

@@ -8,34 +8,37 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="/">Hotarubi - 蛍火</a>
+      <a class="navbar-brand" href="/" target="_self">Hotarubi - 蛍火</a>
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav">
-            <li><a href="/events">イベント</a></li>
-            <li><a href="/news">ニュ－ス</a></li>
-            {% if request.user.is_staff %}
-                <li><a href="/ja/admin">アドミン</a></li>
+            <li><a href="/events" target="_self">イベント</a></li>
+            <li><a href="/news" target="_self">ニュ－ス</a></li>
+            {% if user.is_authenticated %}
+                <li><a href="/account" target="_self">アカウント</a></li>
+                {% if request.user.is_staff %}
+                    <li><a href="/ja/admin" target="_self">アドミン</a></li>
+                {% endif %}
             {% endif %}
         </ul>
         <ul class="nav navbar-nav navbar-right">
             {% if user.is_authenticated %}
                 <li><a href="#">{{ user.username }}</a></li>
-                    <form onsubmit="geturl()" class="navbar-form navbar-right" action="/auth/logout" method="post">{% csrf_token %}
+                <li><form onsubmit="geturl()" class="navbar-form" action="/auth/logout" method="post">{% csrf_token %}
                     <button type="submit" class="btn btn-default">ログアウト</button>
-                </form>
+                </form></li>
             {% else %}
-            <form onsubmit="geturl()" class="navbar-form navbar-right" action="/auth/login" method="post">{% csrf_token %}
-                <div class="form-group">
-                    <input type="text" name="username" class="form-control" placeholder="Login">
-                </div>
-                <div class="form-group">
-                    <input type="password" name="password" class="form-control" placeholder="Password">
-                </div>
-                <button type="submit" class="btn btn-default">ログイン</button>
-            </form>
+                <li><form onsubmit="geturl()" class="navbar-form" action="/auth/login" method="post">{% csrf_token %}
+                    <div class="form-group">
+                        <input type="text" name="username" class="form-control" placeholder="Login">
+                    </div>
+                    <div class="form-group">
+                        <input type="password" name="password" class="form-control" placeholder="Password">
+                    </div>
+                    <button type="submit" class="btn btn-default">ログイン</button>
+                </form></li>
             {% endif %}
         </ul>
 

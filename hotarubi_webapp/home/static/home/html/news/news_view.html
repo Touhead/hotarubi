@@ -3,14 +3,14 @@
         <div class="panel-heading">
             <h3 class="page-header">[[ news.name ]]</h3>
         </div>
-        <div class="img_heading_panel" ng-if="[[ news.banner ]] != ''">
+        <div class="img_heading_panel" ng-if="news.banner != null">
             <img src="[[ news.banner ]]" class="img_heading">
         </div>
         <div class="panel-body">
             <pre>[[ news.description ]]</pre>
         </div>
         <div class="panel-footer news_detail_panel">
-            <img src="[[ news_image.image ]]" onclick="resize(this)" class="img-responsive img-rounded img_news" ng-repeat="news_image in news_images" ng-if="!$first">
+            <img src="[[ news_image.image ]]" onclick="resize(this)" class="img-responsive img-rounded img_news" ng-repeat="news_image in news_images" ng-if="news_image != news.banner">
         </div>
     </div>
     <div>
