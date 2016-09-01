@@ -28,6 +28,8 @@ auth_urls = [
 
 api_user_urls = [
     url(r'(?P<username>[0-9a-zA-Z_-]+)/posts$', views.UserPostList.as_view(), name='user-post-list'),
+    url(r'(?P<username>[0-9a-zA-Z_-]+)/event_subscription$', views.UserEventSubscriptionList.as_view(), name='user-event-sub-list'),
+    url(r'(?P<username>[0-9a-zA-Z_-]+)/event_subscription/(?P<pk>\d+)$', views.EventSubscriptionDetail.as_view(), name='user-event-sub-list'),
     url(r'(?P<username>[0-9a-zA-Z_-]+)$', views.UserDetail.as_view(), name='user-detail'),
     url(r'$', views.UserList.as_view(), name='user-list')
 ]
@@ -41,6 +43,8 @@ api_thread_urls = [
 
 api_event_urls = [
     url(r'(?P<pk>\d+)/images$', views.ThreadImageList.as_view(), name='event-image-list'),
+    url(r'(?P<guild_event>\d+)/event_subscription$', views.EventEventSubscriptionList.as_view(), name='event-event-sub-list'),
+    url(r'(?P<guild_event>\d+)/event_subscription/(?P<pk>\d+)$', views.EventSubscriptionDetail.as_view(), name='event-event-sub-list'),
     url(r'(?P<pk>\d+)$', views.GuildEventDetail.as_view(), name='guild-event-detail'),
     url(r'$', views.GuildEventList.as_view(), name='guild-event-list')
 ]
@@ -67,6 +71,10 @@ api_post_urls = [
     url(r'$', views.PostList.as_view(), name='post-list')
 ]
 
+api_event_subscription_urls = [
+    url(r'$', views.EventSubscriptionList.as_view(), name='post-list')
+]
+
 urlpatterns = [
     url(r'^events', include(event_urls)),
     url(r'^news', include(new_urls)),
@@ -79,5 +87,6 @@ urlpatterns = [
     url(r'^api/images/post/', include(api_post_image_urls)),
     url(r'^api/posts', include(api_post_urls)),
     url(r'^api/users', include(api_user_urls)),
+    url(r'^api/event_subscription', include(api_event_subscription_urls)),
     url(r'^$', views.index_view, name='index'),
 ]

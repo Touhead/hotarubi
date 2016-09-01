@@ -21,5 +21,21 @@
             {% include "home/home/news_panel.html" %}
         </div>
     </div>
+    <script>
+        var homeApp = angular.module('homeApp.resource');
+
+        homeApp.config(['$httpProvider', function($httpProvider) {
+            $httpProvider.defaults.headers.common['X-CSRFToken'] = '{{ csrf_token|escapejs }}';
+        }]);
+
+        homeApp.factory('AuthUser',
+            function() {
+                return {
+                    username: "{{ user.username|default:''|escapejs }}",
+                    id: "{{ user.id }}"
+                }
+            }
+        );
+    </script>
 </body>
 </html>

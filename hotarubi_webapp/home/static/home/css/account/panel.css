@@ -1,0 +1,30 @@
+.panel-title{
+    font-size: 1.4em;
+}
+
+.panel_name{
+    transition:  color 1s;
+    color: darkorange;
+    font-weight: bolder;
+    margin-right: 30px;
+    font-size: 0.8em;
+}
+
+.panel_name:hover{
+    color: #66afe9;
+    text-decoration: none;
+}
+
+.panel_short_description{
+    font-size: 0.8em;
+}
+
+.panel_pub_date{
+    font-size: 0.8em;
+}
+
+.panel-body{
+    height:100%;
+    width: 100%;
+    padding: 10px;
+}

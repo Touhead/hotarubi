@@ -13,6 +13,7 @@ from io import StringIO
 from django.core.files.uploadedfile import SimpleUploadedFile
 import os
 from django.core.files import File
+from django.db.models import F
 
 # Create your models here.
 
@@ -62,7 +63,7 @@ class Thread(models.Model):
 
 class GuildEvent(Thread):
     date = models.DateTimeField('イベントの予定の日付')
-
+    nb_subscriber = models.IntegerField('登録人の数', editable=False, default=0)
 
     class Meta:
         verbose_name = 'イベント'
@@ -114,3 +115,23 @@ class PostImage(Image):
 
     def __str__(self):
         return self.post.__str__() + " - " + self.image.name
+
+
+class EventSubscription(models.Model):
+    user = models.ForeignKey(User, related_name='user_event_subscription', verbose_name='ユ－ザ')
+    guild_event = models.ForeignKey(GuildEvent, related_name='guild_event_event_subscription', verbose_name='イベント')
+
+    class Meta:
+        verbose_name = 'イベント登録'
+        verbose_name_plural = 'イベント登録'
+
+    def __str__(self):
+        return self.guild_event.name + " - " + self.user.username
+
+    def save(self, *args, **kwargs):
+        GuildEvent.objects.filter(pk=self.guild_event).update(nb_subscriber=F('nb_subscriber') + 1)
+        return super(EventSubscription, self).save()
+
+    def delete(self, using=None, keep_parents=False):
+        GuildEvent.objects.filter(pk=self.guild_event).update(nb_subscriber=F('nb_subscriber') - 1)
+        return super(EventSubscription, self).delete()

@@ -1,6 +1,7 @@
 from rest_framework import serializers
-from .models import GuildEvent, New, ThreadImage, PostImage, Post, Thread
+from .models import GuildEvent, New, ThreadImage, PostImage, Post, Thread, EventSubscription
 from django.contrib.auth.models import User
+
 
 class UserSerializer(serializers.ModelSerializer):
     user_post = serializers.StringRelatedField(many=True)
@@ -8,6 +9,13 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('id', 'username', 'first_name', 'last_name', 'user_post')
+
+
+class UserSerializerLight(serializers.ModelSerializer):
+
+    class Meta:
+        model = User
+        fields = ('id', 'username')
 
 
 class ThreadSerializer(serializers.ModelSerializer):
@@ -32,7 +40,7 @@ class NewSerializer(serializers.ModelSerializer):
 
 
 class PostSerializer(serializers.ModelSerializer):
-    user = UserSerializer(required=False)
+    user = UserSerializerLight(required=False)
     post_image = serializers.StringRelatedField(many=True)
     pub_date = serializers.DateTimeField(format=u"%Y年%m月%d日 %H:%M")
 
@@ -61,3 +69,9 @@ class PostImageSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = PostImage
+
+
+class EventSubscriptionSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = EventSubscription

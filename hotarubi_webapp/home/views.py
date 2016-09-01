@@ -7,16 +7,17 @@ from rest_framework import generics, permissions
 from rest_framework.response import Response
 from django.views import generic
 from rest_framework.decorators import api_view
-from .models import GuildEvent, New, ThreadImage, PostImage, Post, User, Thread
+from .models import GuildEvent, New, ThreadImage, PostImage, Post, User, Thread, EventSubscription
 from django.contrib.auth.models import User
-from .permission import PostUserCanEditPermission
+from .permission import PostUserCanEditPermission, EventSubscriptionPermission
 from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import views
+from django.utils.translation import activate
 
-from .serializers import GuildEventSerializer, NewSerializer, NewAndGuildEventSerializer, ThreadImageSerializer, PostImageSerializer, UserSerializer, PostSerializer, ThreadSerializer
+from .serializers import GuildEventSerializer, NewSerializer, NewAndGuildEventSerializer, ThreadImageSerializer, PostImageSerializer, UserSerializer, PostSerializer, ThreadSerializer, EventSubscriptionSerializer
 # Create your views here.
 
 
@@ -39,8 +40,10 @@ def news_view(request, pk):
 def news_list_view(request):
     return render(request, 'home/news/news_list.html')
 
+
 def account_view(request):
     return render(request, 'home/account/account.html')
+
 
 @login_required
 def change_password_view(request):
@@ -50,13 +53,16 @@ def change_password_view(request):
             form.save()
             update_session_auth_hash(request, form.user) # dont logout the user.
             messages.success(request, "Password changed.")
-            return redirect("/account")
+            return render(request, 'home/account/change_password.html', {'errors': False})
+        else:
+            return render(request, 'home/account/change_password.html', {'errors': form.errors})
     else:
         form = PasswordChangeForm(request.user)
     data = {
         'form': form
     }
     return render(request, "home/account/change_password.html", data)
+
 
 def auth_login_view(request):
     username = request.POST['username']
@@ -136,6 +142,7 @@ class NewsDetail(generics.RetrieveUpdateDestroyAPIView):
         permissions.AllowAny
     ]
 
+
 class ThreadList(generics.ListCreateAPIView):
     model = Thread
     queryset = Thread.objects.order_by('-pub_date')
@@ -143,6 +150,7 @@ class ThreadList(generics.ListCreateAPIView):
     permission_classes = [
         permissions.AllowAny
     ]
+
 
 class ThreadsImageList(generics.ListCreateAPIView):
     model = ThreadImage
@@ -248,6 +256,39 @@ class UserPostList(generics.ListAPIView):
         return queryset.filter(user__username=self.kwargs.get('username'))
 
 
+class EventSubscriptionMixin(object):
+    model = EventSubscription
+    queryset = EventSubscription.objects.all();
+    serializer_class = EventSubscriptionSerializer
+    permission_classes = [
+        EventSubscriptionPermission
+    ]
+
+    def perform_create(self, serializer):
+        """Force author to the current user on save"""
+        serializer.save(user=self.request.user)
+
+
+class UserEventSubscriptionList(EventSubscriptionMixin, generics.ListCreateAPIView):
+    def get_queryset(self):
+        queryset = super(UserEventSubscriptionList, self).get_queryset()
+        return queryset.filter(user__username=self.kwargs.get('username'))
+
+
+class EventEventSubscriptionList(EventSubscriptionMixin, generics.ListCreateAPIView):
+    def get_queryset(self):
+        queryset = super(EventEventSubscriptionList, self).get_queryset()
+        return queryset.filter(guild_event__pk=self.kwargs.get('guild_event'))
+
+
+class EventSubscriptionList(EventSubscriptionMixin, generics.ListCreateAPIView):
+    pass
+
+
+class EventSubscriptionDetail(EventSubscriptionMixin, generics.RetrieveUpdateDestroyAPIView):
+    pass
+
+
 class PostMixin(object):
     model = Post
     queryset = Post.objects.all()
@@ -267,3 +308,5 @@ class PostList(PostMixin, generics.ListCreateAPIView):
 
 class PostDetail(PostMixin, generics.RetrieveUpdateDestroyAPIView):
     pass
+
+

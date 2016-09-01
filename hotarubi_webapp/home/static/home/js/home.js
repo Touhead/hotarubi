@@ -65,7 +65,25 @@ homeApp.factory('Posts', ['$resource',
 
 homeApp.factory('PostImages', ['$resource',
     function($resource){
-     return $resource('/api/posts/:post_id/images/:image_io', {id: '@post_id'});
+     return $resource('/api/posts/:post_id/images/:image_id', {id: '@post_id'});
+    }]
+);
+
+homeApp.factory('UserEventSubscription', ['$resource',
+    function($resource){
+     return $resource('/api/users/:username/event_subscription/:event_subscription_id', {id: '@event_subscription_id'});
+    }]
+);
+
+homeApp.factory('EventEventSubscription', ['$resource',
+    function($resource){
+     return $resource('/api/events/:guild_event_id/event_subscription/:event_subscription_id', {id: '@event_subscription_id'});
+    }]
+);
+
+homeApp.factory('EventSubscription', ['$resource',
+    function($resource){
+     return $resource('/api/event_subscription');
     }]
 );
 
@@ -139,9 +157,54 @@ homeApp.controller('indexThreadList', function EventListController($scope, Threa
     $scope.threads = Threads.query();
 });
 
-homeApp.controller('indexEventList', function EventListController($scope, GuildEvent, GuildEventImages) {
+homeApp.controller('indexEventList', function EventListController($scope, $filter, GuildEvent, GuildEventImages, UserEventSubscription, AuthUser) {
 
     $scope.events = GuildEvent.query();
+    $scope.user_event_subscriptions = UserEventSubscription.query({username: AuthUser.username});
+    $scope.newEventSubscription = new UserEventSubscription();
+    $scope.newEventSubscription.user = AuthUser.id;
+
+    $scope.hasSubscribed = function (guild_event) {
+        return $filter('filter')($scope.user_event_subscriptions, {guild_event: guild_event.id}, false).length;
+    };
+
+    $scope.getEventSubscription = function (guild_event){
+        $scope.user_event_subscriptions.some(function (user_event_subscription) {
+                if (user_event_subscription.guild_event == guild_event.id){
+                    $scope.user_event_subscription = user_event_subscription;
+                    return true;
+                }
+        })
+    };
+
+    $scope.subscribe = function (guild_event) {
+        if (AuthUser.id == "")
+            return false;
+
+        $scope.newEventSubscription.guild_event = guild_event.id;
+        $scope.newEventSubscription.$save({username: AuthUser.username}).then(function (result) {
+            $scope.user_event_subscriptions.push(result);
+            guild_event.nb_subscriber += 1;
+        }).then(function () {
+            $scope.newEventSubscription = new UserEventSubscription();
+            $scope.newEventSubscription.user = AuthUser.id;
+        });
+    };
+
+    $scope.unsubscribe = function (guild_event) {
+        if (AuthUser.id == "")
+            return;
+
+        $scope.getEventSubscription(guild_event);
+        if ($scope.user_event_subscription == null)
+            return;
+        $scope.user_event_subscription.$delete({username: AuthUser.username, event_subscription_id: $scope.user_event_subscription.id}).then(function (user_event_subscription) {
+            $scope.idx = $scope.user_event_subscriptions.indexOf(user_event_subscription);
+            $scope.user_event_subscriptions.splice($scope.idx, 1);
+            guild_event.nb_subscriber -= 1;
+            $scope.user_event_subscription = null;
+        })
+    };
     /*$scope.events_images = [];
     $scope.events.$promise.then(function(){
         angular.forEach($scope.events, function(event){
