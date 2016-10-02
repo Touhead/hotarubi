@@ -26,7 +26,8 @@ def index_view(request):
 
 
 def event_view(request, pk):
-    return render(request, 'home/events/events.html')
+    queryset = Thread.objects.get(id=pk)
+    return render(request, 'home/events/events.html', {'event': queryset})
 
 
 def event_list_view(request):
@@ -34,7 +35,8 @@ def event_list_view(request):
 
 
 def news_view(request, pk):
-    return render(request, 'home/news/news.html')
+    queryset = Thread.objects.get(id=pk)
+    return render(request, 'home/news/news.html', {'news': queryset})
 
 
 def news_list_view(request):

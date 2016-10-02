@@ -27,7 +27,7 @@
 }
 
 .event_detail{
-    width: 88%;
+    width: 100%; /* 88% with subscribe button */
     margin: 3px;
 }
 

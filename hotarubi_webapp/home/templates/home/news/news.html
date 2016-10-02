@@ -5,7 +5,12 @@
     {% include "home/generic_include.html" %}
     {% include "home/nav/nav_include.html" %}
     {% include "home/news/news_include.html" %}
-    <base href="/events"><base>
+    <base href="/news">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@TouheadHotarubi">
+    <meta name="twitter:title" content="{{ news.name }}">
+    <meta name="twitter:description" content="{{ news.short_description }}">
+    <meta name="twitter:image" content="{{ news.banner.url }}">
 </head>
 <body ng-app="homeApp.resource">
     <div>
