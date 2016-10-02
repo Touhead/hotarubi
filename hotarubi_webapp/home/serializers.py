@@ -75,3 +75,9 @@ class EventSubscriptionSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = EventSubscription
+
+class EventSubscriptionSerializerWithUser(serializers.ModelSerializer):
+    user = UserSerializerLight(required=False)
+
+    class Meta:
+        model = EventSubscription

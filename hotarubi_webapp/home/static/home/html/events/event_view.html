@@ -2,6 +2,14 @@
     <div class="panel panel-default">
         <div class="panel-heading">
             <h3 class="page-header">[[ event.name ]]</h3>
+            <div class="subscribe">
+                  {% if user.is_authenticated %}
+                    <button id="unsubscribe" type="button" class="btn btn-default event_bnt right" ng-click="unsubscribe(event)" ng-show="hasSubscribed(event)">[[ event.nb_subscriber ]] <span class="glyphicon glyphicon-user" aria-hidden="true"></span></button>
+                    <button id="subscribe" type="button" class="btn btn-default event_bnt right" ng-click="subscribe(event)" ng-show="!hasSubscribed(event)">[[ event.nb_subscriber ]]  <span class="glyphicon glyphicon-user" aria-hidden="true"></span></button>
+                  {% else %}
+                    <button id="unauthenticated" type="button" class="btn btn-default event_bnt right">[[ event.nb_subscriber ]]  <span class="glyphicon glyphicon-user" aria-hidden="true"></span></button>
+                  {% endif %}
+              </div>
         </div>
         <div class="img_heading_panel" ng-if="event.banner != null">
             <img src="[[ event.banner ]]" class="img_heading">

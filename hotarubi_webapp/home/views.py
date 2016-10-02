@@ -17,7 +17,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import views
 from django.utils.translation import activate
 
-from .serializers import GuildEventSerializer, NewSerializer, NewAndGuildEventSerializer, ThreadImageSerializer, PostImageSerializer, UserSerializer, PostSerializer, ThreadSerializer, EventSubscriptionSerializer
+from .serializers import GuildEventSerializer, NewSerializer, NewAndGuildEventSerializer, ThreadImageSerializer, PostImageSerializer, UserSerializer, PostSerializer, ThreadSerializer, EventSubscriptionSerializer, EventSubscriptionSerializerWithUser
 # Create your views here.
 
 
@@ -275,11 +275,18 @@ class UserEventSubscriptionList(EventSubscriptionMixin, generics.ListCreateAPIVi
         return queryset.filter(user__username=self.kwargs.get('username'))
 
 
-class EventEventSubscriptionList(EventSubscriptionMixin, generics.ListCreateAPIView):
-    def get_queryset(self):
-        queryset = super(EventEventSubscriptionList, self).get_queryset()
-        return queryset.filter(guild_event__pk=self.kwargs.get('guild_event'))
+#class EventEventSubscriptionList(EventSubscriptionMixin, generics.ListCreateAPIView):
+#    def get_queryset(self):
+#        queryset = super(EventEventSubscriptionList, self).get_queryset()
+#        return queryset.filter(guild_event__pk=self.kwargs.get('guild_event'))
 
+class EventEventSubscriptionList(generics.ListCreateAPIView):
+    model = EventSubscription
+    queryset = EventSubscription.objects.all()
+    serializer_class = EventSubscriptionSerializerWithUser
+    permission_classes = [
+        permissions.AllowAny
+    ]
 
 class EventSubscriptionList(EventSubscriptionMixin, generics.ListCreateAPIView):
     pass
