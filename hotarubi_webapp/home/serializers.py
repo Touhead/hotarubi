@@ -27,7 +27,7 @@ class ThreadSerializer(serializers.ModelSerializer):
 
 class GuildEventSerializer(serializers.ModelSerializer):
     pub_date = serializers.DateTimeField(format=u"%Y年%m月%d日")
-    date = serializers.DateTimeField(format=u"%Y年%m月%d日")
+    date = serializers.DateTimeField(format=u"%Y年%m月%d日 %H:%M")
     class Meta:
         model = GuildEvent
 
